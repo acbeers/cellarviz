@@ -1,0 +1,167 @@
+<html>
+
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+	<link rel="stylesheet" href="cellarviz.css"/>
+
+</style>
+
+<!-- Color encoding -->
+<style type="text/css">
+.CabernetSauvignon 		{ fill: darkred; }
+.CabernetShirazBlend 	{ fill: darkred; }
+.CabernetFranc			{ fill: darkred; }
+
+.PinotNoir 				{ fill: purple; }
+.PetitVerdot            { fill: purple; }
+.PetiteSirah 			{ fill: purple; }
+
+.RedBordeauxBlend 		{ fill: pink; }
+.RedBlend				{ fill: pink; }
+.Red 					{ fill: pink; }
+
+.Zinfandel				{ fill: rgb(192,64,64); }
+.Merlot					{ fill: rgb(192,64,64); }
+.Sangiovese				{ fill: rgb(192,64,64); }
+.Tempranillo			{ fill: rgb(192,64,64); }
+
+.ChampagneBlend 		{ fill: gold; }
+.Dry 					{ fill: gray; }
+.Sparkling 				{ fill: lightyellow; }
+.SweetDessert 			{ fill: orange; }
+.WhiteSparkling 		{ fill: lightyellow; }
+.Muscat					{ fill: orange; }
+
+.Chardonnay 			{ fill: yellow; }
+.White 					{ fill: yellow; }
+.Viognier				{ fill: yellow; }
+.WhiteBlend				{ fill: yellow; }
+.Glera					{ fill: yellow; }
+.Mauzac					{ fill: yellow; }
+.Riesling				{ fill: yellow; }
+
+</style>
+
+</head>
+
+<body>
+
+	<script src="cellarviz.js"></script>
+
+<div id="connection">
+	<form>
+		User: <input id="username" name="username" type="text" width="16"/>
+		Password: <input id="password" name="password" type="password" width="24"/>
+		<input onclick="reconnect()" type="button" value="Reconnect"/>
+	</form>
+</div>
+
+<div id="cellar">
+<table>
+	<tr>
+		<td class="bin" id="bin34">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="bin" id="bin35">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="bin" id="bin36">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="header" id="aging">Aging Wine</td>
+	</tr>
+</table>
+
+<table>
+	<tr>
+		<td class="bin" id="bin1">&nbsp;</td>
+		<td class="bin" id="bin2">&nbsp;</td>
+		<td class="bin" id="bin3">&nbsp;</td>
+		<td class="bin" id="bin4">&nbsp;</td>
+		<td class="bin" id="bin5">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="bin" id="bin6">&nbsp;</td>
+		<td class="bin" id="bin7">&nbsp;</td>
+		<td class="bin" id="bin8">&nbsp;</td>
+		<td class="bin" id="bin9">&nbsp;</td>
+		<td class="bin" id="bin10">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="bin" id="bin11">&nbsp;</td>
+		<td class="bin" id="bin12">&nbsp;</td>
+		<td class="bin" id="bin13">&nbsp;</td>
+		<td class="bin" id="bin14">&nbsp;</td>
+		<td class="bin" id="bin15">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="header">Special</td>
+		<td class="header">World</td>
+		<td class="header">France</td>
+		<td class="header">Italy</td>
+		<td class="header">US-CA</td>
+	</tr>
+</table>
+
+
+<table>
+	<tr>
+		<td class="bin empty"></td>
+		<td class="bin empty"></td>
+		<td class="bin empty"></td>
+		<td class="bin empty"></td>
+		<td class="bin" id="bin16">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="bin empty"></td>
+		<td class="bin empty"></td>
+		<td class="bin" id="bin17">&nbsp;</td>
+		<td class="bin" id="bin18">&nbsp;</td>
+		<td class="bin" id="bin19">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="bin empty"></td>
+		<td class="bin" id="bin20">&nbsp;</td>
+		<td class="bin" id="bin21">&nbsp;</td>
+		<td class="bin" id="bin22">&nbsp;</td>
+		<td class="bin" id="bin23">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="bin" id="bin24">&nbsp;</td>
+		<td class="bin" id="bin25">&nbsp;</td>
+		<td class="bin" id="bin26">&nbsp;</td>
+		<td class="bin" id="bin27">&nbsp;</td>
+		<td class="bin" id="bin28">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="bin" id="bin29">&nbsp;</td>
+		<td class="bin" id="bin30">&nbsp;</td>
+		<td class="bin" id="bin31">&nbsp;</td>
+		<td class="bin" id="bin32">&nbsp;</td>
+		<td class="bin" id="bin33">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="header">US-CA</td>
+		<td class="header">US-CA</td>
+		<td class="header">US-Other</td>
+		<td class="header">US-Other</td>
+		<td class="header">White & Sweet</td>
+	</tr>
+</table>
+</div>
+
+<div id="tooltip">
+	<table>
+		<tr><td id="name"></td></tr>
+		<tr><td id="varietal"></td></tr>
+		<tr><td id="bin"></td></tr>
+	</table>
+</div>
+
+</body>
+
+
+
+</html>
