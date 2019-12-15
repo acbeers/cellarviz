@@ -18,11 +18,17 @@ function tooltip(d)
 	$("#name").text(d.Vintage + " " + d.Wine);
 	$("#varietal").text(d.MasterVarietal);
 	$("#bin").text(d.Bin);
+	url = "https://www.cellartracker.com/inmycellar.asp?iWine="+d.iWine
+	$("#link").html('<a href="' + url + '">link</a>')
 }
 function load(user,pass)
 {
 	var url = "https://www.cellartracker.com/xlquery.asp?table=Inventory&User="+user+"&Password="+pass+"&Format=csv"
-	d3.csv(url, function(data) {
+	d3.csv(url, function(error,data) {
+		if(error) {
+			console.log(error)
+			$("#error").text("An error occurred")
+		}
 		// TODO: Add color encoding here.
 		data.forEach(function (x) {
 			var c = null;
