@@ -1,0 +1,16 @@
+svg line {
+  stroke: black;
+}
+
+svg circle {
+  stroke: blue;
+  fill: white;
+}
+
+div.CellarBox {
+  border: 1px solid black;
+}
+
+div.CellarBoxContainer {
+  margin: 2px;
+}
