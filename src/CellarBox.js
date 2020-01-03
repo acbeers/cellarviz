@@ -28,7 +28,7 @@ var binlookup = [
 // A cellar box represnts one box in the cellar, with four
 // sub-compartments that hold 2-3 bottles each.
 //
-export const CellarBox = ({ bottles }) => {
+export const CellarBox = ({ bottles, onHighlight, onNoHighlight }) => {
   // Map bottles to bins.
   let binned = [[], [], [], []];
   bottles.forEach(x => {
@@ -40,7 +40,19 @@ export const CellarBox = ({ bottles }) => {
     let bots = bin.map((bot, botidx) => {
       let loc = binlookup[binidx][botidx];
       let trans = `translate(${loc.x},${loc.y})`;
-      return <circle key={binidx + "-" + botidx} r="8" transform={trans} />;
+      return (
+        <circle
+          key={binidx + "-" + botidx}
+          r="8"
+          transform={trans}
+          onMouseEnter={() => {
+            onHighlight(bot.bottle);
+          }}
+          onMouseLeave={() => {
+            onNoHighlight();
+          }}
+        />
+      );
     });
     allbots.splice(allbots.length, 0, ...bots);
   });

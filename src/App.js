@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Cellar } from "./Cellar";
+import { BottleInfo } from "./BottleInfo";
 import "./App.css";
 
 function getCookie(cname) {
@@ -21,6 +22,7 @@ function getCookie(cname) {
 const App = props => {
   let [user, setUser] = useState(getCookie("username"));
   let [pass, setPass] = useState(getCookie("password"));
+  let [bottle, setBottle] = useState(null);
 
   const doForm = () => {
     console.log("FORM TIME");
@@ -30,6 +32,14 @@ const App = props => {
     setPass(password);
     document.cookie = "username=" + username + ";";
     document.cookie = "password=" + password + ";";
+  };
+
+  const onHighlight = bottle => {
+    setBottle(bottle);
+  };
+
+  const onNoHighlight = () => {
+    setBottle(null);
   };
 
   return (
@@ -52,11 +62,17 @@ const App = props => {
             defaultValue={pass}
             width="24"
           />
-          <input onClick={doForm} type="button" value="Reconnect" />
+          <input onSubmit={doForm} type="button" value="Reconnect" />
         </form>
         <div id="error"></div>
       </div>
-      <Cellar user={user} pass={pass} />
+      <Cellar
+        user={user}
+        pass={pass}
+        onHighlight={onHighlight}
+        onNoHighlight={onNoHighlight}
+      />
+      <BottleInfo bottle={bottle} />
     </div>
   );
 };

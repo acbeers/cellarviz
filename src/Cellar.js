@@ -18,7 +18,7 @@ let bincolumns = [
   [16, 19, 23, 28, 33, { label: "White & Sweet" }]
 ];
 
-export const Cellar = ({ user, pass }) => {
+export const Cellar = ({ user, pass, onHighlight, onNoHighlight }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -53,9 +53,20 @@ export const Cellar = ({ user, pass }) => {
       if (row == null) {
         return <PlaceholderBox key={rowidx} />;
       } else if (typeof row === "object") {
-        return <div className="Label">{row.label}</div>;
+        return (
+          <div key={rowidx} className="Label">
+            {row.label}
+          </div>
+        );
       }
-      return <CellarBox key={rowidx} bottles={bindata[row]} />;
+      return (
+        <CellarBox
+          key={rowidx}
+          bottles={bindata[row]}
+          onHighlight={onHighlight}
+          onNoHighlight={onNoHighlight}
+        />
+      );
     });
     return (
       <div key={colidx} className="CellarColumn">
