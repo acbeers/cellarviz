@@ -25,7 +25,6 @@ const App = props => {
   let [bottle, setBottle] = useState(null);
 
   const doForm = () => {
-    console.log("FORM TIME");
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
     setUser(username);
@@ -46,7 +45,7 @@ const App = props => {
     <div>
       <div id="connection">
         <form>
-          User:{" "}
+          <label htmlFor="username">User: </label>
           <input
             id="username"
             name="username"
@@ -54,7 +53,7 @@ const App = props => {
             type="text"
             width="16"
           />
-          Password:{" "}
+          <label htmlFor="password">Password: </label>
           <input
             id="password"
             name="password"
