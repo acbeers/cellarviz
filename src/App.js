@@ -33,11 +33,11 @@ const App = props => {
     document.cookie = "password=" + password + ";";
   };
 
-  const onHighlight = bottle => {
+  const onHover = bottle => {
     setBottle(bottle);
   };
 
-  const onNoHighlight = () => {
+  const onNoHover = () => {
     setBottle(null);
   };
 
@@ -61,16 +61,11 @@ const App = props => {
             defaultValue={pass}
             width="24"
           />
-          <input onSubmit={doForm} type="button" value="Reconnect" />
+          <input onClick={doForm} type="button" value="Reconnect" />
         </form>
         <div id="error"></div>
       </div>
-      <Cellar
-        user={user}
-        pass={pass}
-        onHighlight={onHighlight}
-        onNoHighlight={onNoHighlight}
-      />
+      <Cellar user={user} pass={pass} onHover={onHover} onNoHover={onNoHover} />
       <BottleInfo bottle={bottle} />
     </div>
   );

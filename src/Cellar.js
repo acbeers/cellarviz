@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { CellarBox, PlaceholderBox } from "./CellarBox";
 import { csv } from "d3-fetch";
 import "./Cellar.css";
+import Fuse from "fuse.js";
 
 let bincolumns = [
   [null, null, 34, 35, 36, { label: "Aging wine" }],
@@ -18,8 +19,10 @@ let bincolumns = [
   [16, 19, 23, 28, 33, { label: "White & Sweet" }]
 ];
 
-export const Cellar = ({ user, pass, onHighlight, onNoHighlight }) => {
+export const Cellar = ({ user, pass, onHover, onNoHover }) => {
   const [data, setData] = useState([]);
+  const [index, setIndex] = useState(null);
+  const [highlight, setHighlight] = useState([]);
 
   useEffect(() => {
     let url =
@@ -30,9 +33,40 @@ export const Cellar = ({ user, pass, onHighlight, onNoHighlight }) => {
       "&Format=csv";
 
     csv(url)
-      .then(data => setData(data))
-      .catch(() => {});
+      .then(data => {
+        // Options for the search index.
+        const options = {
+          id: "iWine",
+          shouldSort: true,
+          threshold: 0.3,
+          location: 0,
+          distance: 100,
+          maxPatternLength: 32,
+          minMatchCharLength: 1,
+          keys: [
+            "Wine",
+            "Varietal",
+            "Bin",
+            "Type",
+            "Color",
+            "Category",
+            "Producer"
+          ]
+        };
+
+        setData(data);
+        setIndex(new Fuse(data, options));
+      })
+      .catch(err => {
+        console.log("Some error on fetching");
+        console.log(err);
+      });
   }, [user, pass]);
+
+  const doSearch = evt => {
+    const results = index.search(evt.target.value);
+    setHighlight(results);
+  };
 
   // FIXME: This syntax seems wrong.  And the hard-coded constant is unfortunate.
   let bindata = Array.from(Array(40)).map(() => []);
@@ -63,8 +97,9 @@ export const Cellar = ({ user, pass, onHighlight, onNoHighlight }) => {
         <CellarBox
           key={rowidx}
           bottles={bindata[row]}
-          onHighlight={onHighlight}
-          onNoHighlight={onNoHighlight}
+          onHover={onHover}
+          onNoHover={onNoHover}
+          highlight={highlight}
         />
       );
     });
@@ -74,5 +109,13 @@ export const Cellar = ({ user, pass, onHighlight, onNoHighlight }) => {
       </div>
     );
   });
-  return <div>{columns}</div>;
+  return (
+    <div>
+      <div id="searchbox">
+        <label htmlFor="search">Search: </label>
+        <input type="text" id="search" width="40" onChange={doSearch} />
+      </div>
+      <div>{columns}</div>;
+    </div>
+  );
 };

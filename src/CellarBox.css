@@ -7,6 +7,16 @@ svg circle {
   fill: white;
 }
 
+svg circle.highlight {
+  stroke: blue;
+  fill: #88f;
+}
+
+svg circle.nohighlight {
+  stroke: gray;
+  fill: lightgray;
+}
+
 div.CellarBox {
   border: 1px solid black;
 }
