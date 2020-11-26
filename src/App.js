@@ -19,10 +19,11 @@ function getCookie(cname) {
   return "";
 }
 
-const App = props => {
+const App = (props) => {
   let [user, setUser] = useState(getCookie("username"));
   let [pass, setPass] = useState(getCookie("password"));
   let [bottle, setBottle] = useState(null);
+  let [selected, setSelected] = useState(false);
 
   const doForm = () => {
     let username = document.getElementById("username").value;
@@ -33,12 +34,23 @@ const App = props => {
     document.cookie = "password=" + password + ";";
   };
 
-  const onHover = bottle => {
-    setBottle(bottle);
+  const onHover = (bottle) => {
+    if(!selected)
+      setBottle(bottle);
   };
 
   const onNoHover = () => {
-    setBottle(null);
+    if (!selected) setBottle(null);
+  };
+
+  const onClick = (bot) => {
+    if (selected) {
+      setSelected(false);
+    } else {
+      setSelected(true);
+      console.log("selected");
+    }
+    console.log("selected was " + selected)
   };
 
   return (
@@ -65,7 +77,13 @@ const App = props => {
         </form>
         <div id="error"></div>
       </div>
-      <Cellar user={user} pass={pass} onHover={onHover} onNoHover={onNoHover} />
+      <Cellar
+        user={user}
+        pass={pass}
+        onHover={onHover}
+        onNoHover={onNoHover}
+        onSelect={onClick}
+      />
       <BottleInfo bottle={bottle} />
     </div>
   );

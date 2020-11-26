@@ -16,10 +16,11 @@ let bincolumns = [
   [null, null, 20, 25, 30, { label: "US-CA" }],
   [null, 17, 21, 26, 31, { label: "US-Other" }],
   [null, 18, 22, 27, 32, { label: "US-Other" }],
-  [16, 19, 23, 28, 33, { label: "White & Sweet" }]
+  [16, 19, 23, 28, 33, { label: "White & Sweet" }],
 ];
 
-export const Cellar = ({ user, pass, onHover, onNoHover }) => {
+console.log("here");
+export const Cellar = ({ user, pass, onHover, onNoHover, onSelect }) => {
   const [data, setData] = useState([]);
   const [index, setIndex] = useState(null);
   const [highlight, setHighlight] = useState([]);
@@ -32,8 +33,15 @@ export const Cellar = ({ user, pass, onHover, onNoHover }) => {
       pass +
       "&Format=csv";
 
-    csv(url)
-      .then(data => {
+    console.log("let's go fetch!");
+    csv(url, {
+      headers: {
+        "Accept-Language": "en-us",
+        Host: "www.cellartracker.com",
+        "Accept-Encoding": "gzip, deflate, br",
+      },
+    })
+      .then((data) => {
         // Options for the search index.
         const options = {
           id: "iWine",
@@ -50,20 +58,21 @@ export const Cellar = ({ user, pass, onHover, onNoHover }) => {
             "Type",
             "Color",
             "Category",
-            "Producer"
-          ]
+            "Producer",
+            "BottleNote",
+          ],
         };
 
         setData(data);
         setIndex(new Fuse(data, options));
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("Some error on fetching");
         console.log(err);
       });
   }, [user, pass]);
 
-  const doSearch = evt => {
+  const doSearch = (evt) => {
     const results = index.search(evt.target.value);
     setHighlight(results);
   };
@@ -71,7 +80,7 @@ export const Cellar = ({ user, pass, onHover, onNoHover }) => {
   // FIXME: This syntax seems wrong.  And the hard-coded constant is unfortunate.
   let bindata = Array.from(Array(40)).map(() => []);
 
-  data.forEach(elt => {
+  data.forEach((elt) => {
     let binarr = elt.Bin.split("-");
     if (binarr.length === 2) {
       let bot = { box: binarr[0], quad: binarr[1], bottle: elt };
@@ -99,6 +108,7 @@ export const Cellar = ({ user, pass, onHover, onNoHover }) => {
           bottles={bindata[row]}
           onHover={onHover}
           onNoHover={onNoHover}
+          onSelect={onSelect}
           highlight={highlight}
         />
       );
