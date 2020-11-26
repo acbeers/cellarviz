@@ -23,7 +23,6 @@ const App = (props) => {
   let [user, setUser] = useState(getCookie("username"));
   let [pass, setPass] = useState(getCookie("password"));
   let [bottle, setBottle] = useState(null);
-  let [selected, setSelected] = useState(false);
 
   const doForm = () => {
     let username = document.getElementById("username").value;
@@ -35,22 +34,17 @@ const App = (props) => {
   };
 
   const onHover = (bottle) => {
-    if(!selected)
-      setBottle(bottle);
+    setBottle(bottle);
   };
 
   const onNoHover = () => {
-    if (!selected) setBottle(null);
+    setBottle(null);
   };
 
   const onClick = (bot) => {
-    if (selected) {
-      setSelected(false);
-    } else {
-      setSelected(true);
-      console.log("selected");
-    }
-    console.log("selected was " + selected)
+    const url =
+      "https://www.cellartracker.com/inmycellar.asp?iWine=" + bottle.iWine;
+    window.open(url);
   };
 
   return (
