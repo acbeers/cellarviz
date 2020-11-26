@@ -22,7 +22,7 @@ export const BottleInfo = ({ bottle }) => {
             </tr>
             <tr>
               <td id="link">
-                <a target="_blank" href={url}>
+                <a target="_blank" href={url} rel="noopener noreferrer">
                   link
                 </a>
               </td>
