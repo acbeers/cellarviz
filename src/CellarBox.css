@@ -14,7 +14,7 @@ svg circle.highlight {
 
 svg circle.nohighlight {
   stroke: gray;
-  fill: lightgray;
+  fill: lightgray !important;
 }
 
 div.CellarBox {
@@ -23,4 +23,88 @@ div.CellarBox {
 
 div.CellarBoxContainer {
   margin: 2px;
+}
+
+svg circle.CabernetSauvignon {
+  fill: darkred;
+}
+svg circle.CabernetShirazBlend {
+  fill: darkred;
+}
+svg circle.CabernetFranc {
+  fill: darkred;
+}
+
+svg circle.PinotNoir {
+  fill: purple;
+}
+svg circle.PetitVerdot {
+  fill: purple;
+}
+svg circle.PetiteSirah {
+  fill: purple;
+}
+
+svg circle.RedBordeauxBlend {
+  fill: pink;
+}
+svg circle.RedBlend {
+  fill: pink;
+}
+svg circle.Red {
+  fill: pink;
+}
+
+svg circle.Zinfandel {
+  fill: rgb(192, 64, 64);
+}
+svg circle.Merlot {
+  fill: rgb(192, 64, 64);
+}
+svg circle.Sangiovese {
+  fill: rgb(192, 64, 64);
+}
+svg circle.Tempranillo {
+  fill: rgb(192, 64, 64);
+}
+
+svg circle.ChampagneBlend {
+  fill: gold;
+}
+svg circle.Dry {
+  fill: gray;
+}
+svg circle.Sparkling {
+  fill: lightyellow;
+}
+svg circle.SweetDessert {
+  fill: orange;
+}
+svg circle.WhiteSparkling {
+  fill: lightyellow;
+}
+svg circle.Muscat {
+  fill: orange;
+}
+
+svg circle.Chardonnay {
+  fill: yellow;
+}
+svg circle.White {
+  fill: yellow;
+}
+svg circle.Viognier {
+  fill: yellow;
+}
+svg circle.WhiteBlend {
+  fill: yellow;
+}
+svg circle.Glera {
+  fill: yellow;
+}
+svg circle.Mauzac {
+  fill: yellow;
+}
+svg circle.Riesling {
+  fill: yellow;
 }

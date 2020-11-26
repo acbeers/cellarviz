@@ -18,8 +18,13 @@ export const BottleInfo = ({ bottle }) => {
               <td id="bin">{bottle.Bin}</td>
             </tr>
             <tr>
+              <td id="value">{bottle.Valuation}</td>
+            </tr>
+            <tr>
               <td id="link">
-                <a href={url}>link</a>
+                <a target="_blank" href={url} rel="noopener noreferrer">
+                  link
+                </a>
               </td>
             </tr>
           </tbody>

@@ -6,32 +6,38 @@ var binlookup = [
   [
     { x: 50, y: 35 },
     { x: 35, y: 20 },
-    { x: 65, y: 20 }
+    { x: 65, y: 20 },
   ],
   [
     { x: 80, y: 65 },
     { x: 65, y: 50 },
-    { x: 80, y: 35 }
+    { x: 80, y: 35 },
   ],
   [
     { x: 35, y: 90 },
     { x: 65, y: 90 },
-    { x: 50, y: 75 }
+    { x: 50, y: 75 },
   ],
   [
     { x: 20, y: 65 },
     { x: 35, y: 50 },
-    { x: 20, y: 35 }
-  ]
+    { x: 20, y: 35 },
+  ],
 ];
 
 // A cellar box represnts one box in the cellar, with four
 // sub-compartments that hold 2-3 bottles each.
 //
-export const CellarBox = ({ bottles, onHover, onNoHover, highlight }) => {
+export const CellarBox = ({
+  bottles,
+  onHover,
+  onNoHover,
+  onSelect,
+  highlight,
+}) => {
   // Map bottles to bins.
   let binned = [[], [], [], []];
-  bottles.forEach(x => {
+  bottles.forEach((x) => {
     binned[x.quad - 1].push(x);
   });
   // For each bottle, figure out where it belongs
@@ -40,13 +46,16 @@ export const CellarBox = ({ bottles, onHover, onNoHover, highlight }) => {
     let bots = bin.map((bot, botidx) => {
       let loc = binlookup[binidx][botidx];
       let trans = `translate(${loc.x},${loc.y})`;
-      let kls = "";
+      let klasses = [];
+      klasses.push(bot.bottle.MasterVarietal.replace(/[^a-zA-Z]/g, ""));
       if (highlight.length > 0) {
-        kls =
+        klasses.push(
           highlight.indexOf(bot.bottle.iWine) === -1
             ? "nohighlight"
-            : "highlight";
+            : "highlight"
+        );
       }
+      let kls = klasses.join(" ");
       return (
         <circle
           className={kls}
@@ -58,6 +67,9 @@ export const CellarBox = ({ bottles, onHover, onNoHover, highlight }) => {
           }}
           onMouseLeave={() => {
             onNoHover();
+          }}
+          onClick={() => {
+            onSelect(bot.bottle);
           }}
         />
       );
@@ -77,6 +89,6 @@ export const CellarBox = ({ bottles, onHover, onNoHover, highlight }) => {
   );
 };
 
-export const PlaceholderBox = props => {
+export const PlaceholderBox = (props) => {
   return <div className="Placeholder"></div>;
 };
