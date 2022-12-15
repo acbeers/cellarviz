@@ -1,7 +1,7 @@
 // Cellar.js
 import React, { useState, useEffect } from "react";
 import { CellarBox, PlaceholderBox } from "./CellarBox";
-import { csv } from "d3-fetch";
+import { csv } from "csvtojson";
 import "./Cellar.css";
 import Fuse from "fuse.js";
 
@@ -19,7 +19,6 @@ let bincolumns = [
   [16, 19, 23, 28, 33, { label: "White & Sweet" }],
 ];
 
-console.log("here");
 export const Cellar = ({ user, pass, onHover, onNoHover, onSelect }) => {
   const [data, setData] = useState([]);
   const [index, setIndex] = useState(null);
@@ -33,42 +32,49 @@ export const Cellar = ({ user, pass, onHover, onNoHover, onSelect }) => {
       pass +
       "&Format=csv";
 
-    console.log("let's go fetch!");
-    csv(url, {
+    // d3-fetch.csv() likely only works for utf-8 data.
+    // instead, do this:
+    // https://observablehq.com/@mbostock/fetch-utf-16
+    // then decode
+    // then csv parse
+    fetch(url, {
       headers: {
         "Accept-Language": "en-us",
         Host: "www.cellartracker.com",
         "Accept-Encoding": "gzip, deflate, br",
       },
     })
-      .then((data) => {
-        // Options for the search index.
-        const options = {
-          id: "iWine",
-          shouldSort: true,
-          threshold: 0.3,
-          location: 0,
-          distance: 100,
-          maxPatternLength: 32,
-          minMatchCharLength: 1,
-          keys: [
-            "Wine",
-            "Varietal",
-            "Bin",
-            "Type",
-            "Color",
-            "Category",
-            "Producer",
-            "BottleNote",
-          ],
-        };
+      .then((resp) => resp.arrayBuffer())
+      .then((buffer) => new TextDecoder("iso-8859-1").decode(buffer))
+      .then((text) => {
+        // Now CSV parse
+        csv()
+          .fromString(text)
+          .then((rows) => {
+            // Options for the search index.
+            const options = {
+              id: "iWine",
+              shouldSort: true,
+              threshold: 0.3,
+              location: 0,
+              distance: 100,
+              maxPatternLength: 32,
+              minMatchCharLength: 1,
+              keys: [
+                "Wine",
+                "Varietal",
+                "Bin",
+                "Type",
+                "Color",
+                "Category",
+                "Producer",
+                "BottleNote",
+              ],
+            };
 
-        setData(data);
-        setIndex(new Fuse(data, options));
-      })
-      .catch((err) => {
-        console.log("Some error on fetching");
-        console.log(err);
+            setData(rows);
+            setIndex(new Fuse(rows, options));
+          });
       });
   }, [user, pass]);
 
@@ -125,7 +131,7 @@ export const Cellar = ({ user, pass, onHover, onNoHover, onSelect }) => {
         <label htmlFor="search">Search: </label>
         <input type="text" id="search" width="40" onChange={doSearch} />
       </div>
-      <div>{columns}</div>;
+      <div>{columns}</div>
     </div>
   );
 };
